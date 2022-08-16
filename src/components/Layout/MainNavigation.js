@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { actions } from "../../store";
+import { authActions } from "../../store/Slices/AuthSlice";
 import classes from "./MainNavigation.module.css";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -8,7 +8,7 @@ const MainNavigation = () => {
   const authDispatch = useDispatch();
   console.log("main nevigation");
   const logOutHandler = (event) => {
-    authDispatch(actions.setLogout());
+    authDispatch(authActions.setLogout());
   };
   return (
     <header className={classes.header}>

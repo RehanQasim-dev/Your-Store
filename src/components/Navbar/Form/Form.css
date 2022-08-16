@@ -1,0 +1,10 @@
+.input {
+    border:1px solid rgb(130, 117, 117);
+    border-radius: 5px;
+}
+.disable,.disable:hover {
+    color:rgb(123, 123, 122);
+    border-color:rgb(123, 123, 122);
+    background: transparent;
+
+}

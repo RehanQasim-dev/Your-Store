@@ -1,4 +1,4 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 let initialState = "";
 const getToken = localStorage.getItem("idToken");
 if (getToken != "undefined") {
@@ -34,3 +34,4 @@ export const setLoginn = (payload) => (dispatch) => {
 };
 
 export default authSlice;
+export const authActions = authSlice.actions;

@@ -1,0 +1,9 @@
+.overlay-box {
+    max-height: 45vh;
+    /* top:50vh; */
+}
+
+.fix {
+    position: sticky;
+    bottom:0;
+}

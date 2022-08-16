@@ -3,9 +3,8 @@ import "./Form.css";
 import Input from "./Input";
 import useApi from "../../hooks/useApi";
 import axios from "axios";
-import { actions } from "../../store";
-import { useSelector, useDispatch } from "react-redux";
-import { setLoginn } from "../../store/reducer/AuthReducer";
+import { useDispatch } from "react-redux";
+import { setLoginn } from "../../store/Slices/AuthSlice";
 const requestSignIn = (body) => {
   return axios.post("http://127.0.0.1:8000/auth/jwt/create/", body);
 };

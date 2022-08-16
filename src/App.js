@@ -4,6 +4,7 @@ import Layout from "./components/Layout/Layout";
 import UserProfile from "./components/Profile/UserProfile";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
+import Navbar from "./components/Navbar/Navbar";
 import Collections from "./components/Lists/Collections";
 import CollectionDetail from "./components/DetailItem/CollectionDetail";
 import ProductDetail from "./components/DetailItem/ProductDetail";
@@ -12,7 +13,8 @@ function App() {
   const isLoggedIn = !!idToken;
   console.log(isLoggedIn);
   return (
-    <Layout>
+    <>
+      <Navbar />
       <Routes>
         {<Route element={<HomePage />} path="/" />}
         {isLoggedIn && (
@@ -35,7 +37,7 @@ function App() {
           </>
         )}
       </Routes>
-    </Layout>
+    </>
   );
 }
 

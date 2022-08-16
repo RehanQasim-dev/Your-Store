@@ -1,5 +1,5 @@
 import { actions } from "../../store/index";
-import { setLogin } from "../../store/reducer/AuthReducer";
+import { setLogin } from "../../store/Slices/AuthSlice";
 import { useRef, useState } from "react";
 import SignIn from "../Forms/SignIn";
 import SignUp from "../Forms/SignUp";
