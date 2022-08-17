@@ -6,7 +6,16 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItemToCart(state, action) {
-      state.cartItems.push(action.payload);
+      let changed = false;
+      for (let i of state.cartItems) {
+        if (i.id === action.payload.id) {
+          i.amount += action.payload.amount;
+          changed = true;
+        }
+      }
+      if (!changed) {
+        state.cartItems.push(action.payload);
+      }
     },
     removeItemfromCart(state, action) {
       state.cartItems.filter((item) => item.name != action.payload);

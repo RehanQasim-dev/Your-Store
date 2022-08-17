@@ -8,10 +8,28 @@ import Navbar from "./components/Navbar/Navbar";
 import Collections from "./components/Lists/Collections";
 import CollectionDetail from "./components/DetailItem/CollectionDetail";
 import ProductDetail from "./components/DetailItem/ProductDetail";
+import useApi from "./hooks/useApi";
+import axios from "axios";
+import { useEffect } from "react";
+const createCart = () => {
+  return axios.post("http://localhost:8000/store/Carts/", {});
+};
+let response;
 function App() {
+  response = useApi(createCart);
+  const cartIdExists = localStorage.getItem("cartId") != null;
+  console.log(cartIdExists);
+  useEffect(() => {
+    if (!cartIdExists && response.data.id) {
+      localStorage.setItem("cartId", response.data.id);
+    } else if (!cartIdExists && !response.data.id) {
+      response.request();
+    }
+    console.log("use effect ran");
+  }, [response.data.id]);
+  console.log(response.data);
   const idToken = useSelector((state) => state.Auth.idToken);
   const isLoggedIn = !!idToken;
-  console.log(isLoggedIn);
   return (
     <>
       <Navbar />
