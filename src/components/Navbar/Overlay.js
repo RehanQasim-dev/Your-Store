@@ -5,11 +5,11 @@ import "./Overlay.css";
 import { Link } from "react-router-dom";
 import Form from "./Form/Form";
 export default function Overlay(props) {
-  const cartItems = useSelector((state) => state.Cart.cartitems);
+  const cartItems = useSelector((state) => state.Cart);
   const [showForm, setShowForm] = React.useState(false);
   const [isConfirmed, setIsConfirmed] = React.useState(false);
-  function total_amount(total, item) {
-    return total + item.price * parseInt(item.amount);
+  function total_amount(total, i) {
+    return total + cartItems[i].price * parseInt(cartItems[i].quantity);
   }
   function showFormHandler(event) {
     setShowForm(true);
@@ -47,11 +47,11 @@ export default function Overlay(props) {
             className=" bg-white p-5 absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 rounded-xl"
           >
             <div className="overlay-box overflow-y-auto">
-              {cartItems.map((item) => (
+              {Object.keys(cartItems).map((i) => (
                 <Overlay_item
-                  name={item.name}
-                  price={item.price}
-                  amount={item.amount}
+                  title={cartItems[i].title}
+                  price={cartItems[i].price}
+                  amount={cartItems[i].quantity}
                 />
               ))}
             </div>
@@ -64,7 +64,7 @@ export default function Overlay(props) {
 
               <div id="right_price_section">
                 <h1 className="table text-xl font-bold ml-auto mb-3">
-                  {cartItems.reduce(total_amount, 0).toFixed(2)}
+                  {Object.keys(cartItems).reduce(total_amount, 0).toFixed(2)}
                 </h1>
                 {!showForm && (
                   <>

@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate, Router } from "react-router-dom";
-import { Provider, useSelector } from "react-redux";
-import Layout from "./components/Layout/Layout";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import useApiLite from "./hooks/useApiLite";
 import UserProfile from "./components/Profile/UserProfile";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
@@ -11,23 +11,38 @@ import ProductDetail from "./components/DetailItem/ProductDetail";
 import useApi from "./hooks/useApi";
 import axios from "axios";
 import { useEffect } from "react";
+import { useRef } from "react";
+import { cartActions } from "./store/Slices/CartSlice";
 const createCart = () => {
   return axios.post("http://localhost:8000/store/Carts/", {});
 };
+const getCartItems = () => {
+  return axios.get(
+    `http://localhost:8000/store/Carts/${localStorage.getItem("cartId")}/Items`
+  );
+};
 let response;
 function App() {
+  const cartDispatch = useDispatch();
   response = useApi(createCart);
+  const cartResponse = useApiLite(getCartItems);
   const cartIdExists = localStorage.getItem("cartId") != null;
-  console.log(cartIdExists);
   useEffect(() => {
     if (!cartIdExists && response.data.id) {
       localStorage.setItem("cartId", response.data.id);
     } else if (!cartIdExists && !response.data.id) {
       response.request();
     }
-    console.log("use effect ran");
   }, [response.data.id]);
-  console.log(response.data);
+  useEffect(() => {
+    const test2 = async () => {
+      if (cartIdExists) {
+        await cartResponse.request();
+      }
+      cartDispatch(cartActions.setInitials(cartResponse.data.current.results));
+    };
+    test2();
+  }, []);
   const idToken = useSelector((state) => state.Auth.idToken);
   const isLoggedIn = !!idToken;
   return (

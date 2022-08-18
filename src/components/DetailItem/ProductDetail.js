@@ -5,37 +5,33 @@ import { useDispatch } from "react-redux/es/exports";
 import { cartActions } from "../../store/Slices/CartSlice";
 import { useParams } from "react-router-dom";
 import useApi from "../../hooks/useApi";
+import { useRef } from "react";
 const getProductDetail = (id) => {
   return axios.get(`http://127.0.0.1:8000/store/Products/${id}/`);
 };
-const addItemToCart = (id, quantity) => {
+const addItemToCart = (body) => {
   return axios.post(
     `http://127.0.0.1:8000/store/Carts/${localStorage.getItem(
       "cartId"
     )}/Items/`,
-    { product: id, quantity: quantity }
+    body
   );
 };
 export default function ProductDetail(props) {
   const { id } = useParams();
   const [isClicked, setIsClicked] = React.useState(false);
   const [quantity, setQuantity] = React.useState(0);
+  const [isAddClicked, setIsAddClicked] = React.useState(false);
   const cartDispatch = useDispatch();
-  const response = useApi(getProductDetail);
+  const initialRender = useRef(true);
+  const productItemResponse = useApi(getProductDetail);
   const cartResponse = useApi(addItemToCart);
-  const data = response.data;
-  console.log(cartResponse.data);
+  const data = productItemResponse.data;
   //event handlers
   const addToCartHandler = () => {
-    cartDispatch(
-      cartActions.addItemToCart({
-        id: data.id,
-        title: data.title,
-        price: data.price,
-        amount: +quantity,
-      })
-    );
-    cartResponse.request(id, +quantity);
+    setIsAddClicked((old) => !old);
+    cartResponse.request({ product: data.id, quantity: +quantity });
+    console.log("request sent");
   };
   const plus = () => {
     setQuantity((old) => {
@@ -67,12 +63,27 @@ export default function ProductDetail(props) {
       setQuantity(value);
     }
   };
-
   //
   useEffect(() => {
-    response.request(id);
+    productItemResponse.request(id);
   }, []);
-  console.log(id);
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      console.log("useeffect ran");
+      console.log(cartResponse.data);
+      console.log(cartResponse.error);
+      cartDispatch(
+        cartActions.addItemToCart({
+          id: cartResponse.data.id,
+          title: cartResponse.data.product_item.title,
+          price: cartResponse.data.product_item.price,
+          quantity: +quantity,
+        })
+      );
+    }
+  }, [cartResponse.data]);
   return (
     <div className="bg-slate-100 py-7  px-16 h-screen">
       <div className="bg-zinc-50 put-shadow flex gap-2 mx-auto rounded-md w-3/4 ">
@@ -110,7 +121,10 @@ export default function ProductDetail(props) {
 
           <div className="quantity flex gap-3 items-center mt-4">
             <h1 className="text-zinc-700 text-xl italic">Quantity</h1>
-            <button onClick={minus} className="btn-small rounded-full h-9">
+            <button
+              onClick={minus}
+              className="btn-pressed btn-small rounded-full h-9"
+            >
               -
             </button>
             <input
@@ -119,7 +133,10 @@ export default function ProductDetail(props) {
               type="text"
               className="w-16 px-1 text-center font-extrabold border-2 border-slate-500"
             />
-            <button onClick={plus} className="btn-small rounded-full h-9">
+            <button
+              onClick={plus}
+              className="btn-pressed btn-small rounded-full h-9"
+            >
               +
             </button>
           </div>

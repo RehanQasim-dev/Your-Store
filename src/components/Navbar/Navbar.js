@@ -4,9 +4,9 @@ import cartlogo from "./cartlogo.svg";
 import Overlay from "./Overlay";
 import { useSelector } from "react-redux";
 import { getCartItemsAmount } from "../../store/Slices/CartSlice";
-export default function Nlengthxavbar() {
+export default function Navbar() {
   const [isclicked, set_isclicked] = useState(false);
-  const cartItems = useSelector((state) => state.Cart.cartItems);
+  const cartItems = useSelector((state) => state.Cart);
   function cancel_handler(event) {
     set_isclicked((old) => !old);
   }
@@ -22,10 +22,10 @@ export default function Nlengthxavbar() {
     return () => {
       clearTimeout(timer);
     };
-  }, [cartItems.length]);
+  }, [Object.keys(cartItems).length]);
   return (
     <>
-      {/* {isclicked && <Overlay cancel_handler={cancel_handler} />} */}
+      {isclicked && <Overlay cancel_handler={cancel_handler} />}
       <div className="navbar bg-amber-700 flex  justify-between items-center">
         <h1 className="custom-font text-white p-14 font-medium">ReactMeals</h1>
 
