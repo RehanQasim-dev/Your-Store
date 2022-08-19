@@ -11,8 +11,8 @@ import ProductDetail from "./components/DetailItem/ProductDetail";
 import useApi from "./hooks/useApi";
 import axios from "axios";
 import { useEffect } from "react";
-import { useRef } from "react";
 import { cartActions } from "./store/Slices/CartSlice";
+import PlaceOrder from "./pages/PlaceOrder";
 const createCart = () => {
   return axios.post("http://localhost:8000/store/Carts/", {});
 };
@@ -23,6 +23,7 @@ const getCartItems = () => {
 };
 let response;
 function App() {
+  const navToOrder = useSelector((state) => state.Ui.navToOrder);
   const cartDispatch = useDispatch();
   response = useApi(createCart);
   const cartResponse = useApiLite(getCartItems);
@@ -50,11 +51,20 @@ function App() {
       <Navbar />
       <Routes>
         {<Route element={<HomePage />} path="/" />}
+        <Route element={<Collections />} path="/collections" />
+        <Route element={<CollectionDetail />} path="/collections/:id" />
+        <Route element={<ProductDetail />} path="/products/:id" />
         {isLoggedIn && (
           <>
+            <Route element={<PlaceOrder />} path="/placeorder" />
             <Route element={<UserProfile />} path="/profile" />
             <Route
-              element={<Navigate to="/collections" replace />}
+              element={
+                <Navigate
+                  to={navToOrder ? "/placeorder" : "/collections"}
+                  replace
+                />
+              }
               path="/auth"
             />
           </>
@@ -63,9 +73,6 @@ function App() {
         {!isLoggedIn && (
           <>
             <Route element={<AuthPage />} path="/auth" />
-            <Route element={<Collections />} path="/collections" />
-            <Route element={<CollectionDetail />} path="/collections/:id" />
-            <Route element={<ProductDetail />} path="/products/:id" />
             <Route element={<Navigate to="/auth" replace />} path="*" />
           </>
         )}

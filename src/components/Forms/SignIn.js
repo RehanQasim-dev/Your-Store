@@ -30,7 +30,6 @@ export default function (props) {
         deadline: Date.now() + 300000000,
       })
     );
-    // authDispatch(actions.setLogin(response.data.access));
     console.log("useeffect run");
   }, [response.data.access]);
 
@@ -71,9 +70,6 @@ export default function (props) {
       >
         Login
       </button>
-      {/* <div className="table ml-auto">
-            <button onClick={props.cancel_handler} className="font-medium bg-transparent  text-amber-700 border-amber-700 border-2 hover:bg-amber-700 hover:text-white px-5 py-0.5 rounded-2xl text-center mr-2">Cancel</button>
-            </div> */}
     </form>
   );
 }

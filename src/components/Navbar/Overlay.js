@@ -1,22 +1,22 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Overlay_item from "./Overlay_item";
-import "./Overlay.css";
 import { Link } from "react-router-dom";
+import "./Overlay.css";
 import Form from "./Form/Form";
+import { uiActions } from "../../store/Slices/uiSlice";
 export default function Overlay(props) {
   const cartItems = useSelector((state) => state.Cart);
-  const [showForm, setShowForm] = React.useState(false);
+  const uiDispatch = useDispatch();
   const [isConfirmed, setIsConfirmed] = React.useState(false);
+  const prepareToNav = () => {
+    uiDispatch(uiActions.setNavigation());
+    props.cancel_handler();
+  };
   function total_amount(total, i) {
     return total + cartItems[i].price * parseInt(cartItems[i].quantity);
   }
-  function showFormHandler(event) {
-    setShowForm(true);
-  }
-  function setIsConfirmedHandler(event) {
-    setIsConfirmed(true);
-  }
+
   console.log(isConfirmed);
 
   return (
@@ -68,30 +68,34 @@ export default function Overlay(props) {
                 <h1 className="table text-xl font-bold ml-auto mb-3">
                   {Object.keys(cartItems).reduce(total_amount, 0).toFixed(2)}
                 </h1>
-                {!showForm && (
-                  <>
-                    <button
-                      onClick={props.cancel_handler}
-                      className=" font-medium bg-transparent  text-amber-700 border-amber-700 border-2 hover:bg-amber-700 hover:text-white px-5 rounded-xl text-center mr-3 "
-                    >
-                      close
-                    </button>
-                    <button
+                <>
+                  <button
+                    onClick={props.cancel_handler}
+                    className=" font-medium bg-transparent  text-amber-700 border-amber-700 border-2 hover:bg-amber-700 hover:text-white px-5 rounded-xl text-center mr-3 "
+                  >
+                    close
+                  </button>
+                  {!localStorage.getItem("idToken") && (
+                    <Link
                       className=" font-medium bg-transparent  text-amber-700 border-amber-700 border-2 hover:bg-amber-700 hover:text-white px-5 rounded-xl text-center "
-                      onClick={showFormHandler}
+                      onClick={prepareToNav}
+                      to="/auth"
                     >
                       Order
-                    </button>
-                  </>
-                )}
+                    </Link>
+                  )}
+                  {localStorage.getItem("idToken") && (
+                    <Link
+                      className=" font-medium bg-transparent  text-amber-700 border-amber-700 border-2 hover:bg-amber-700 hover:text-white px-5 rounded-xl text-center "
+                      onClick={props.cancel_handler}
+                      to="/placeorder"
+                    >
+                      Order
+                    </Link>
+                  )}
+                </>
               </div>
             </div>
-            {showForm && (
-              <Form
-                cancel_handler={props.cancel_handler}
-                setIsConfirmedHandler={setIsConfirmedHandler}
-              />
-            )}
           </div>
         </>
       )}
