@@ -4,9 +4,11 @@ import cartlogo from "./cartlogo.svg";
 import Overlay from "./Overlay";
 import { useSelector } from "react-redux";
 import { getCartItemsAmount } from "../../store/Slices/CartSlice";
+
 export default function Navbar() {
   const [isclicked, set_isclicked] = useState(false);
   const cartItems = useSelector((state) => state.Cart);
+  // console.log(cartIte);
   function cancel_handler(event) {
     set_isclicked((old) => !old);
   }

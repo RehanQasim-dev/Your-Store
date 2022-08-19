@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Overlay_item from "./Overlay_item";
 import "./Overlay.css";
 import { Link } from "react-router-dom";
@@ -49,9 +49,11 @@ export default function Overlay(props) {
             <div className="overlay-box overflow-y-auto">
               {Object.keys(cartItems).map((i) => (
                 <Overlay_item
+                  key={cartItems[i].id}
+                  id={cartItems[i].id}
                   title={cartItems[i].title}
                   price={cartItems[i].price}
-                  amount={cartItems[i].quantity}
+                  quantity={cartItems[i].quantity}
                 />
               ))}
             </div>

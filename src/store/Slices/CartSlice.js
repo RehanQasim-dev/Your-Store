@@ -6,7 +6,9 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItemToCart(state, action) {
+      console.log(state);
       const item = state[action.payload.id];
+      console.log(item);
       if (item !== undefined) {
         item.quantity += action.payload.quantity;
       } else {

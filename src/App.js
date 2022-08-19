@@ -53,9 +53,6 @@ function App() {
         {isLoggedIn && (
           <>
             <Route element={<UserProfile />} path="/profile" />
-            <Route element={<Collections />} path="/collections" />
-            <Route element={<CollectionDetail />} path="/collections/:id" />
-            <Route element={<ProductDetail />} path="/products/:id" />
             <Route
               element={<Navigate to="/collections" replace />}
               path="/auth"
@@ -66,6 +63,9 @@ function App() {
         {!isLoggedIn && (
           <>
             <Route element={<AuthPage />} path="/auth" />
+            <Route element={<Collections />} path="/collections" />
+            <Route element={<CollectionDetail />} path="/collections/:id" />
+            <Route element={<ProductDetail />} path="/products/:id" />
             <Route element={<Navigate to="/auth" replace />} path="*" />
           </>
         )}
