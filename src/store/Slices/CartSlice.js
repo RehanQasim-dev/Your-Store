@@ -6,10 +6,12 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItemToCart(state, action) {
-      console.log(state);
+      console.log("adding item to cart");
       const item = state[action.payload.id];
-      console.log(item);
+      console.log("id= ", action.payload.id);
+      console.log("payload=", action.payload);
       if (item !== undefined) {
+        console.log("item already axists");
         item.quantity += action.payload.quantity;
       } else {
         return { ...state, [action.payload.id]: action.payload };

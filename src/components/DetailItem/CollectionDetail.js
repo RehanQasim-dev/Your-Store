@@ -5,7 +5,6 @@ import useApi from "../../hooks/useApi";
 import ProductItem from "../CoverItem/ProductItem";
 import forwardarrow from "./forwardarrow.svg";
 import backword from "./backarrow.svg";
-console.log("detail component  run");
 export default function CollectionDetail(props) {
   const [pageNo, setPageNo] = React.useState(1);
   const getCollectionDetail = (id, page) => {
@@ -14,7 +13,6 @@ export default function CollectionDetail(props) {
     );
   };
   const minus = () => {};
-  console.log(pageNo);
   function items_generator(item) {
     return (
       <ProductItem
@@ -30,7 +28,6 @@ export default function CollectionDetail(props) {
   const response = useApi(getCollectionDetail);
   const nextDisable = !!!response.data.next;
   const previousDisable = !!!response.data.previous;
-  console.log(response);
   const ProductItems =
     response.data.results && response.data.results.map(items_generator);
   useEffect(() => {

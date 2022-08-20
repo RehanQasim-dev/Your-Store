@@ -14,7 +14,6 @@ export default function (props) {
     val: "",
     isTouched: false,
   });
-
   const [passwordStates, setPasswordStates] = React.useState({
     val: "",
     isTouched: false,

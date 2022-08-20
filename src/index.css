@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 .btn {
-  @apply font-medium bg-transparent  text-slate-800 border-slate-800 border-2  hover:bg-slate-800 hover:text-white px-5 py-0.5 rounded-2xl text-center;
+  @apply font-semibold bg-transparent  text-slate-900 border-slate-800 border-2  hover:bg-slate-800 hover:text-white px-5 py-0.5 rounded-2xl text-center;
 }
 .table-center {
   @apply table mx-auto;

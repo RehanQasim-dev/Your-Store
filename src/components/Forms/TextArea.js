@@ -16,12 +16,13 @@ export default function Input(props) {
       <label htmlFor="input" className="text-lg font-medium mb-2">
         {props.title}
       </label>
-      <input
+      <br />
+      <textarea
         id="input"
         onBlur={blurHandler}
         onChange={changeHandler}
         value={val}
-        className="input pl-2 py-0.5 font-medium focus:bg-pink-200"
+        className="input pl-2 py-0.5 font-medium focus:bg-pink-200 w-4/5"
         type={props.type}
       />
       <br />

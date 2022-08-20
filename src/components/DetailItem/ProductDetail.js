@@ -28,10 +28,9 @@ export default function ProductDetail(props) {
   const cartResponse = useApi(addItemToCart);
   const data = productItemResponse.data;
   //event handlers
-  const addToCartHandler = () => {
+  const addToCartHandler = async () => {
     setIsAddClicked((old) => !old);
-    cartResponse.request({ product: data.id, quantity: +quantity });
-    console.log("request sent");
+    await cartResponse.request({ product: data.id, quantity: +quantity });
   };
   const plus = () => {
     setQuantity((old) => {
@@ -71,9 +70,7 @@ export default function ProductDetail(props) {
     if (initialRender.current) {
       initialRender.current = false;
     } else {
-      console.log("useeffect ran");
-      console.log(cartResponse.data);
-      console.log(cartResponse.error);
+      console.log("response of cartitem", cartResponse.data);
       cartDispatch(
         cartActions.addItemToCart({
           id: cartResponse.data.id,
