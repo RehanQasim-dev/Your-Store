@@ -3,12 +3,23 @@ import useApi from "../../hooks/useApi";
 import "./Form.css";
 import axios from "axios";
 import Input from "./Input";
+import useApiLite from "../../hooks/useApiLite";
 const requestSignUp = (body) => {
   return axios.post("http://127.0.0.1:8000/auth/users/", body);
 };
-let response;
+const postCustomer = (body) => {
+  return axios.post("http://127.0.0.1:8000/store/Customers/", body);
+};
 export default function (props) {
   const [firstNameStates, setFirstNameStates] = React.useState({
+    val: "",
+    isTouched: false,
+  });
+  const [phoneStates, setPhoneStates] = React.useState({
+    val: "",
+    isTouched: false,
+  });
+  const [dateStates, setDateStates] = React.useState({
     val: "",
     isTouched: false,
   });
@@ -28,17 +39,26 @@ export default function (props) {
     val: "",
     isTouched: false,
   });
-  response = useApi(requestSignUp);
-  console.log(response.data);
-  function submitHandler(event) {
+  const userResponse = useApiLite(requestSignUp);
+  const customerResponse = useApiLite(postCustomer);
+  console.log(userResponse.error);
+  console.log(customerResponse.error);
+  async function submitHandler(event) {
     event.preventDefault();
-    response.request({
-      first_tname: firstNameStates.val,
+    await userResponse.request({
+      first_name: firstNameStates.val,
       last_name: lastNameStates.val,
       username: userNameStates.val,
       email: emailStates.val,
       password: passwordStates.val,
     });
+    await customerResponse.request({
+      phone: phoneStates.val,
+      birth_date: dateStates.val,
+      user: userResponse.data.current.id,
+    });
+    console.log(userResponse.data);
+    console.log(customerResponse.data);
   }
 
   const isDisabled = (inputStates) =>
@@ -80,6 +100,22 @@ export default function (props) {
         setInputStates={setEmailStates}
         type="email"
         errorMessage="Enter Valid Email"
+        Input
+      />
+      <Input
+        title={"phone"}
+        inputStates={phoneStates}
+        setInputStates={setPhoneStates}
+        type="tel"
+        errorMessage="Enter Valid Number"
+        Input
+      />
+      <Input
+        title={"Birth Date"}
+        inputStates={dateStates}
+        setInputStates={setDateStates}
+        type="date"
+        errorMessage=""
         Input
       />
       <Input

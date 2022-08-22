@@ -7,7 +7,7 @@ import useApiLite from "../hooks/useApiLite";
 import axios from "axios";
 const postOrder = (body, idToken) => {
   return axios.post("http://127.0.0.1:8000/store/Orders/", body, {
-    headers: { Authentication: idToken },
+    headers: { Authorization: `JWT ${idToken}` },
   });
 };
 export default function PlaceOrder() {
@@ -28,17 +28,18 @@ export default function PlaceOrder() {
     val: "",
     isTouched: false,
   });
-  const submitHandler = (event) => {
-    orderResponse.request(
+  const submitHandler = async (event) => {
+    await orderResponse.request(
       {
         address: adressStates.val,
         message: messageRef.current.value,
         payment_method: "Cash On Delivery",
         cart_id: localStorage.getItem("cartId"),
       },
-      localStorage.getItem("idToken")
+      localStorage.getItem('idToken')
     );
   };
+  console.log("error", orderResponse.error);
   const isDisabled = (inputStates) =>
     !inputStates.isTouched || inputStates.val == "";
   const submitDisable =

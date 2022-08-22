@@ -16,6 +16,7 @@ export default function Input(props) {
       <label htmlFor="input" className="text-lg font-medium mb-2">
         {props.title}
       </label>
+      <br />
       <input
         id="input"
         onBlur={blurHandler}
