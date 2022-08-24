@@ -1,16 +1,25 @@
 import React from "react";
-
+import "./ProductItem.css";
 import { Link } from "react-router-dom";
 
 export default function ProductItem(props) {
   return (
-    <div className=" bg-purple-600 border-2 text-center text-white border-purple-900 mb-5 hover:bg-purple-200 hover:text-purple-800">
-      <Link className="font-bold text-2xl " to={`/products/${props.id}`}>
-        {props.title}
+    <div className=" bg-white shadow-md rounded-xl table">
+      <Link to={`/products/${props.id}`}>
+        <img
+          className="w-full"
+          src="https://images.pexels.com/photos/335257/pexels-photo-335257.jpeg?cs=srgb&dl=pexels-eprism-studio-335257.jpg&fm=jpg"
+          alt=""
+        />
       </Link>
-      <h1 className="font-bold text-xl"> {props.price}$</h1>
-      <div className="font-bold text-xl text-center table p-2 border-black border-2 rounded-lg mx-auto">
-        {props.inventory}
+      <div className="px-5 py-3 flex justify-between">
+        <div>
+          <Link className="text-xl font-medium" to={`/products/${props.id}`}>
+            {props.title}
+          </Link>
+          <h1 className="text-xl font-bold">{props.price}</h1>
+        </div>
+        <h1>{props.inventory ? "In Stock" : "Out of Stock"}</h1>
       </div>
     </div>
   );

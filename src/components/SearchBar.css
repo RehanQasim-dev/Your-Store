@@ -1,0 +1,6 @@
+.search-input {
+  flex-grow: 80;
+}
+.search-btn {
+  flex-grow: 20;
+}

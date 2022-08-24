@@ -5,6 +5,7 @@ import useApi from "../../hooks/useApi";
 import ProductItem from "../CoverItem/ProductItem";
 import forwardarrow from "./forwardarrow.svg";
 import backword from "./backarrow.svg";
+import "./CollectionDetail.css";
 export default function CollectionDetail(props) {
   const [pageNo, setPageNo] = React.useState(1);
   const getCollectionDetail = (id, page) => {
@@ -24,6 +25,7 @@ export default function CollectionDetail(props) {
       />
     );
   }
+  console.log("collection detail item ran");
   const { id } = useParams();
   const response = useApi(getCollectionDetail);
   const nextDisable = !!!response.data.next;
@@ -32,10 +34,10 @@ export default function CollectionDetail(props) {
     response.data.results && response.data.results.map(items_generator);
   useEffect(() => {
     response.request(id, pageNo);
-  }, [pageNo]);
+  }, [id, pageNo]);
 
   return (
-    <div className="w-1/2 table-center">
+    <div className="gridd flex-1">
       {ProductItems}
       <div className="flex mb-4">
         {/* <img

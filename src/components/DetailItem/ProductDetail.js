@@ -82,8 +82,8 @@ export default function ProductDetail(props) {
     }
   }, [cartResponse.data]);
   return (
-    <div className="bg-slate-100 py-7  px-16 h-screen">
-      <div className="bg-zinc-50 put-shadow flex gap-2 mx-auto rounded-md w-3/4 ">
+    <div className="h-full bg-zinc-300">
+      <div className="bg-zinc-50 put-shadow flex gap-2 rounded-md mx-auto w-3/4">
         <div className="product-img h-full">
           <img
             className="h-full"

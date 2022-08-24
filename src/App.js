@@ -11,8 +11,12 @@ import ProductDetail from "./components/DetailItem/ProductDetail";
 import useApi from "./hooks/useApi";
 import axios from "axios";
 import { useEffect } from "react";
+import SideBar from "./components/SideBar";
 import { cartActions } from "./store/Slices/CartSlice";
 import PlaceOrder from "./pages/PlaceOrder";
+import SearchBar from "./components/SearchBar";
+import { useMatch } from "react-router-dom";
+import CollectionProducts from "./pages/CollectionProducts";
 const createCart = () => {
   return axios.post("http://localhost:8000/store/Carts/", {});
 };
@@ -23,6 +27,7 @@ const getCartItems = () => {
 };
 let response;
 function App() {
+  const match = useMatch("/collections/:id");
   const navToOrder = useSelector((state) => state.Ui.navToOrder);
   const cartDispatch = useDispatch();
   response = useApi(createCart);
@@ -47,13 +52,13 @@ function App() {
   const idToken = useSelector((state) => state.Auth.idToken);
   const isLoggedIn = !!idToken;
   return (
-    <>
+    // <div className="text-red-400 sm:text-black lg:text-purple-600">heloo</div>
+    <div className="bg-zinc-300">
       <Navbar />
       <Routes>
-        {<Route element={<HomePage />} path="/" />}
-        <Route element={<Collections />} path="/collections" />
-        <Route element={<CollectionDetail />} path="/collections/:id" />
+        <Route element={<CollectionProducts />} path="/collections/:id" />
         <Route element={<ProductDetail />} path="/products/:id" />
+
         {isLoggedIn && (
           <>
             <Route element={<PlaceOrder />} path="/placeorder" />
@@ -61,7 +66,7 @@ function App() {
             <Route
               element={
                 <Navigate
-                  to={navToOrder ? "/placeorder" : "/collections"}
+                  to={navToOrder ? "/placeorder" : "/collections/1"}
                   replace
                 />
               }
@@ -77,7 +82,7 @@ function App() {
           </>
         )}
       </Routes>
-    </>
+    </div>
   );
 }
 

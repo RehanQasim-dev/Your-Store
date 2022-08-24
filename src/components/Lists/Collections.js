@@ -25,5 +25,5 @@ export default function Collections() {
     response.request();
   }, []);
 
-  return <div className="mt-5">{collectionItems}</div>;
+  return <div className="">{collectionItems}</div>;
 }
