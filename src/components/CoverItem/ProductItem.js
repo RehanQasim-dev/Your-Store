@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 export default function ProductItem(props) {
   return (
     <div className=" bg-white shadow-md rounded-xl table">
-      <Link to={`/products/${props.id}`}>
+      <Link
+        onClick={() => console.log("my id= ", props.id)}
+        to={`/products/${props.id}`}
+      >
         <img
           className="w-full"
           src="https://images.pexels.com/photos/335257/pexels-photo-335257.jpeg?cs=srgb&dl=pexels-eprism-studio-335257.jpg&fm=jpg"

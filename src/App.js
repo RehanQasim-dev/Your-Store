@@ -3,20 +3,16 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import useApiLite from "./hooks/useApiLite";
 import UserProfile from "./components/Profile/UserProfile";
 import AuthPage from "./pages/AuthPage";
-import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar/Navbar";
-import Collections from "./components/Lists/Collections";
-import CollectionDetail from "./components/DetailItem/CollectionDetail";
 import ProductDetail from "./components/DetailItem/ProductDetail";
 import useApi from "./hooks/useApi";
 import axios from "axios";
 import { useEffect } from "react";
-import SideBar from "./components/SideBar";
 import { cartActions } from "./store/Slices/CartSlice";
 import PlaceOrder from "./pages/PlaceOrder";
-import SearchBar from "./components/SearchBar";
 import { useMatch } from "react-router-dom";
 import CollectionProducts from "./pages/CollectionProducts";
+import ProductDetailPage from "./pages/ProductDetailPage";
 const createCart = () => {
   return axios.post("http://localhost:8000/store/Carts/", {});
 };
@@ -57,8 +53,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route element={<CollectionProducts />} path="/collections/:id" />
-        <Route element={<ProductDetail />} path="/products/:id" />
-
+        <Route element={<ProductDetailPage />} path="/products/:id" />
         {isLoggedIn && (
           <>
             <Route element={<PlaceOrder />} path="/placeorder" />
@@ -74,7 +69,6 @@ function App() {
             />
           </>
         )}
-
         {!isLoggedIn && (
           <>
             <Route element={<AuthPage />} path="/auth" />

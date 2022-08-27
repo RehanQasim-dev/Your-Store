@@ -6,14 +6,18 @@ import ProductItem from "../CoverItem/ProductItem";
 import forwardarrow from "./forwardarrow.svg";
 import backword from "./backarrow.svg";
 import "./CollectionDetail.css";
+import { useDispatch, useSelector } from "react-redux";
+import { uiActions } from "../../store/Slices/uiSlice";
 export default function CollectionDetail(props) {
   const [pageNo, setPageNo] = React.useState(1);
-  const getCollectionDetail = (id, page) => {
+  const search = useSelector((state) => state.Ui.search);
+  const Dispatch = useDispatch();
+  const initialRender = React.useRef(true);
+  const getCollectionDetail = (id, page, search) => {
     return axios.get(
-      `http://127.0.0.1:8000/store/Products/?collection_id=${id}&page=${page}`
+      `http://127.0.0.1:8000/store/Products/?collection_id=${id}&page=${page}&search=${search}`
     );
   };
-  const minus = () => {};
   function items_generator(item) {
     return (
       <ProductItem
@@ -25,21 +29,38 @@ export default function CollectionDetail(props) {
       />
     );
   }
-  console.log("collection detail item ran");
   const { id } = useParams();
   const response = useApi(getCollectionDetail);
   const nextDisable = !!!response.data.next;
   const previousDisable = !!!response.data.previous;
   const ProductItems =
     response.data.results && response.data.results.map(items_generator);
-  useEffect(() => {
-    response.request(id, pageNo);
-  }, [id, pageNo]);
+  const plus = (event) => {
+    setPageNo((old) => old + 1);
+  };
+  const minus = (event) => {
+    setPageNo((old) => old - 1);
+  };
 
+  useEffect(() => {
+    response.request(id, pageNo, "");
+  }, [id, pageNo]);
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else if (!initialRender.current) {
+      console.log("search request sent");
+      response.request(id, pageNo, search);
+    }
+  }, [search]);
+  alert(response.loading);
   return (
-    <div className="gridd flex-1">
-      {ProductItems}
-      <div className="flex mb-4">
+    <div>
+      <h1 className="text-3xl ">loading={`${response.loading}`}</h1>
+      <h1 className="text-3xl ">loading={`${!!response.data}`}</h1>
+
+      <div className="gridd flex-1">{ProductItems}</div>
+      <div className="flex mb-5 mt-5 ">
         {/* <img
           src={backword}
           alt="back"
@@ -61,7 +82,9 @@ export default function CollectionDetail(props) {
         </button>
         <button
           className={`${nextDisable ? "disable" : ""} btn ml-auto`}
-          onClick={() => setPageNo((old) => old + 1)}
+          onClick={() => {
+            setPageNo((old) => old + 1);
+          }}
           disabled={nextDisable}
         >
           Next
