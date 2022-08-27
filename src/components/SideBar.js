@@ -22,6 +22,30 @@ export default function SideBar() {
           </div>
         )}
       </section>
+      <section id="filters" className="mt-3">
+        <h2 className="text-lg font-medium">Filters</h2>
+        <h2 className="text-md mt-2 ml-1"> Price Filter</h2>
+        <div className="mt-2">
+          <div className="flex justify-between mb-3">
+            <h3 className="text-md font-normal text-zinc-800 ml-2">
+              Lower Bound:{" "}
+            </h3>
+            <input
+              type="text"
+              className="w-24 flex-grow-0 text-xl font-medium pl-3 focus:outline-none"
+            />
+          </div>
+          <div className="flex justify-between">
+            <h3 className="font-normal text-md text-zinc-800 ml-2 ">
+              Upper Bound:{" "}
+            </h3>
+            <input
+              type="text"
+              className="w-24 flex-grow-0 text-xl font-medium pl-3 focus:outline-none"
+            />
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
