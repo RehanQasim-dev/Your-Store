@@ -53,13 +53,9 @@ export default function CollectionDetail(props) {
       response.request(id, pageNo, search);
     }
   }, [search]);
-  alert(response.loading);
   return (
-    <div>
-      <h1 className="text-3xl ">loading={`${response.loading}`}</h1>
-      <h1 className="text-3xl ">loading={`${!!response.data}`}</h1>
-
-      <div className="gridd flex-1">{ProductItems}</div>
+    <div className="flex-1">
+      <div className="gridd ">{ProductItems}</div>
       <div className="flex mb-5 mt-5 ">
         {/* <img
           src={backword}
@@ -74,14 +70,14 @@ export default function CollectionDetail(props) {
           onClick={() => setPageNo((old) => old + 1)}
         /> */}
         <button
-          className={`${previousDisable ? "disable" : ""} btn `}
+          className={`${previousDisable ? "hidden" : ""} btn `}
           onClick={() => setPageNo((old) => old - 1)}
           disabled={previousDisable}
         >
           back
         </button>
         <button
-          className={`${nextDisable ? "disable" : ""} btn ml-auto`}
+          className={`${nextDisable ? "hidden" : ""} btn ml-auto`}
           onClick={() => {
             setPageNo((old) => old + 1);
           }}

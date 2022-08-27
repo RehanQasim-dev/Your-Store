@@ -3,7 +3,7 @@ import Collections from "./Lists/Collections";
 export default function SideBar() {
   const [showCategory, setShowCategory] = React.useState(true);
   return (
-    <div className="w-1/5">
+    <div className="basis-1/5">
       <h1 className="text-xl mb-3">Filters & refine</h1>
       <section className="Category">
         <div className="flex justify-between gap-20">

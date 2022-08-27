@@ -4,7 +4,6 @@ import useApiLite from "./hooks/useApiLite";
 import UserProfile from "./components/Profile/UserProfile";
 import AuthPage from "./pages/AuthPage";
 import Navbar from "./components/Navbar/Navbar";
-import ProductDetail from "./components/DetailItem/ProductDetail";
 import useApi from "./hooks/useApi";
 import axios from "axios";
 import { useEffect } from "react";
@@ -28,7 +27,7 @@ function App() {
   const cartDispatch = useDispatch();
   response = useApi(createCart);
   const cartResponse = useApiLite(getCartItems);
-  const cartIdExists = localStorage.getItem("cartId") != null;
+  const cartIdExists = localStorage.getItem("cartId") !== null;
   useEffect(() => {
     if (!cartIdExists && response.data.id) {
       localStorage.setItem("cartId", response.data.id);
@@ -45,8 +44,7 @@ function App() {
     };
     test2();
   }, []);
-  const idToken = useSelector((state) => state.Auth.idToken);
-  const isLoggedIn = !!idToken;
+  const isLoggedIn = useSelector((state) => state.Auth.isLoggedIn);
   return (
     // <div className="text-red-400 sm:text-black lg:text-purple-600">heloo</div>
     <div className="bg-zinc-300">

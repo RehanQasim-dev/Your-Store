@@ -3,13 +3,17 @@ import "./Navbar.css";
 import cartlogo from "./cartlogo.svg";
 import Overlay from "./Overlay";
 import profilelogo from "./profile.svg";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { authActions } from "../../store/Slices/AuthSlice";
 import { getCartItemsAmount } from "../../store/Slices/CartSlice";
 
 export default function Navbar() {
+  const [showSetting, setShowSetting] = useState(false);
   const [isclicked, set_isclicked] = useState(false);
+  const Dispatch = useDispatch();
   const cartItems = useSelector((state) => state.Cart);
-  // console.log(cartIte);
+  const isSignedIn = useSelector((state) => state.Auth.isLoggedIn);
   function cancel_handler(event) {
     set_isclicked((old) => !old);
   }
@@ -48,10 +52,41 @@ export default function Navbar() {
             {getCartItemsAmount(cartItems)}
           </div>
         </div>
-        <div className="profilelog xl:h-2/3 h-7 mr-5">
+        <div
+          onClick={() => setShowSetting((old) => !old)}
+          className="profilelog xl:h-2/3 h-7 mr-5"
+        >
           <img src={profilelogo} alt="profilelogo" className="h-full" />
         </div>
       </div>
+      {showSetting && (
+        <div>
+          <div
+            id="Settings"
+            className="table bg-white absolute right-6 px-4 py-2 rounded-lg"
+          >
+            <Link className="text-xl" to="/profile">
+              Profile
+            </Link>
+            <hr />
+            {isSignedIn && (
+              <Link
+                className="text-xl"
+                onClick={() => Dispatch(authActions.setLogout())}
+                to={"/collections/1"}
+              >
+                Logout
+              </Link>
+            )}
+
+            {!isSignedIn && (
+              <Link className="text-xl" to={"/auth"}>
+                Sign In
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 }

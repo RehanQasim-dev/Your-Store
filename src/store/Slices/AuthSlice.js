@@ -1,37 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
-let initialState = "";
-const getToken = localStorage.getItem("idToken");
-if (getToken != "undefined") {
-  initialState = getToken;
-}
+const initialState = !!localStorage.getItem("idToken");
 const remainingTime = (deadline) => {
   return deadline - Date.now();
 };
 let timer;
 const authSlice = createSlice({
   name: "Auth",
-  initialState: { idToken: initialState },
+  initialState: { isLoggedIn: initialState },
   reducers: {
     setLogin(state, action) {
-      state.idToken = action.payload;
+      state.isLoggedIn = true;
     },
     setLogout(state, action) {
-      state.idToken = "";
+      state.isLoggedIn = false;
       localStorage.removeItem("idToken");
       clearTimeout(timer);
     },
   },
 });
-
+export const authActions = authSlice.actions;
 export const setLoginn = (payload) => (dispatch) => {
-  dispatch(authSlice.actions.setLogin(payload.idToken));
+  dispatch(authActions.setLogin());
   localStorage.setItem("idToken", payload.idToken);
   localStorage.setItem("deadline", payload.deadline);
   const remaining = remainingTime(payload.deadline);
   timer = setTimeout(() => {
-    dispatch(authSlice.actions.setLogout());
+    dispatch(authActions.setLogout());
   }, remaining);
 };
 
 export default authSlice;
-export const authActions = authSlice.actions;

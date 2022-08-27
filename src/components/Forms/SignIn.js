@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "./Form.css";
 import Input from "./Input";
 import useApi from "../../hooks/useApi";
+import { useRef } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setLoginn } from "../../store/Slices/AuthSlice";
@@ -10,6 +11,7 @@ const requestSignIn = (body) => {
 };
 let response;
 export default function (props) {
+  const initialRender = useRef(true);
   const [userNameStates, setUserNameStates] = React.useState({
     val: "",
     isTouched: false,
@@ -23,13 +25,16 @@ export default function (props) {
   response = useApi(requestSignIn);
 
   useEffect(() => {
-    authDispatch(
-      setLoginn({
-        idToken: response.data.access,
-        deadline: Date.now() + 300000000,
-      })
-    );
-    console.log("useeffect run");
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      authDispatch(
+        setLoginn({
+          idToken: response.data.access,
+          deadline: Date.now() + 300000000,
+        })
+      );
+    }
   }, [response.data.access]);
 
   console.log(response.data.access);
